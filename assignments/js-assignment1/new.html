@@ -5,30 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UPDATE PASSWORD</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .error {
-            color: red;
-            font-size: 14px;
-        }
-    </style>
+ 
+    
+
+
 
 </head>
 <body>
-    <form id="updatePasswordForm" class="bg-pink-300 text-white flex flex-col items-center p-5 gap-5">
-        <h1 class="text-[50px]">Update Password</h1>
-        <div class="space-y-4">
-            <label>NEW PASSWORD:</label><br>
-            <input type="password" id="newPassword" placeholder="Create Password" class="text-black hover:outline-blue-700 p-2">
-            <p id="newPasswordErrMsg" class="error"></p>
+    <div class=" 2xl:container mx-auto">
+        <div class="w-[90%] mx-auto flex justify-center items-center h-screen">
+            <div class="max-w-[500px] bg-pink-300 text-white border rounded-xl p-6 gap-4">
+                <h1 class="text-[50px] font-bold text-center py-2">Update Password</h1>
+                <form id="updatePasswordForm" class="flex flex-col gap-2">
+                    <div class="flex flex-col gap-4">
+                        <label>NEW PASSWORD:</label>
+                        <input 
+                        type="password" 
+                        id="newPassword" 
+                        placeholder="Create Password" 
+                        class="text-black hover:outline-blue-700 pl-2 px-4 py-2 rounded-xl">
+                        <p id="newPasswordErrMsg" class="text-red-500 text-sm"></p>
+                    </div>
+                    <div class="flex flex-col gap-4">
+                        <label>CONFIRM PASSWORD:</label>
+                        <input 
+                        type="password"
+                        id="confirmPassword" 
+                        placeholder="Confirm Password"
+                        class="text-black hover:outline-blue-700 pl-2 px-4 py-2 rounded-lg">
+                        <p id="confirmPasswordErrMsg" class="text-red-500 text-sm"></p>
+                    </div>
+                    <div class="flex justify-center gap-2">
+                        <button id="updateBtn" class="bg-blue-500 py-3 px-4 rounded-lg">Update </button>
+                    </div>
+                </form> 
+            </div>
         </div>
-         <div class="space-y-4">
-            <label>CONFIRM PASSWORD:</label><br>
-            <input type="password" id="confirmPassword" placeholder="Confirm Password" class="text-black hover:outline-blue-700 p-2">
-            <p id="confirmPasswordErrMsg" class="error"></p>
-        </div>
-        <button id="updateBtn" class="bg-blue-500 py-3 px-4 rounded-lg">Update </button>
-    </form>
-    
+    </div>
     <script>
         //get all the elements we need
         let newPassword = document.getElementById("newPassword");
@@ -47,11 +60,15 @@
         }
         // create validate func for confirm password
         function validateConfirmPassword() {
-            confirmPasswordErrMsg.textContent = "";
+            confirmPasswordErrMsg.textContent = ""; // to clear prevoius error
+            
             // shows both the feild is filled or not 
             if( newPassword.value !== "" && confirmPassword.value !== "") {
                 if(newPassword.value !== confirmPassword.value) {
                     confirmPasswordErrMsg.textContent = "Password must be same*";
+                }else{
+                    alert("Password updated successfully...");
+                    console.log("password updated successfully..")
                 }
             }
         }
@@ -71,11 +88,19 @@
             validateNewPassword();
             validateConfirmPassword();
         });
+
+
+
+        
         //submit update button
         updatePasswordForm.addEventListener("submit", function(event){
             event.preventDefault();
             validateNewPassword();
             validateConfirmPassword();
+        
+     
+
+
         });
     </script>
 </body>
