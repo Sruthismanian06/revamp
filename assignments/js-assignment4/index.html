@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bacon Ipsum Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="2xl:container mx-auto py-5 px-4">
+        <div class="w-[90%] mx-auto min-h-screen border rounded-lg bg-gray-100 mx-auto flex flex-col items-center justify-start gap-4 ">
+            <h1 class="text-2xl md:text-3xl font-bold">Bacon Ipsum Generator</h1>
+            <button id="fetchBtn" class="p-2 rounded-lg border bg-green-400 text-white hover:bg-green-500 transition-colors">Generate Bacon Text</button>
+            <div id="content" class="pl-2 flex flex-col bg-white p-6 rounded-lg shadow-md"></div>
+
+        </div>
+    </div>
+<script>
+    //get elements using id
+    const fetchBtn = document.getElementById("fetchBtn");
+    const content = document.getElementById("content");
+    // function for fetchdata 
+    function fetchData() {
+        //giving this content in innerhtml as dynamically..
+        content.innerHTML = "<p class='loading'> Loading bacon ipsum..</p>";
+
+        fetch("https://baconipsum.com/api/?type=all")
+        .then(response =>{
+            if(!response.ok){
+                throw new Error ("the network may be not ok..");
+            }
+            return response.json();
+        })
+        .then(data=>{
+            //Clears loading message before inserting real data.
+            content.innerHTML = "";
+            data.forEach(paragraph =>{
+                const p = document.createElement("p");
+                //that created element p is need to be paragraph
+                p.textContent = paragraph;
+                //added gap for each paragraph
+                p.classList.add("mb-6");
+                content.appendChild(p);
+            });
+        })
+        .catch(error =>{
+            content.innerHTML = `<p class="text-red-500 font-bold">Error:${error.message}</p>`;
+        });
+    }
+    //call the fetch func
+    fetchBtn.addEventListener("click",fetchData);
+</script>
+
+</body>
+</html>
