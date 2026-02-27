@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bacon Ipsum Generator(using - async/await)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="2xl:container mx-auto py-4 px-3">
+        <div class="max-w-5xl mx-auto flex flex-col border rounded-lg gap-4">
+            <h1 class="text-2xl font-bold text-center">Bacon Ipsum Generator</h1>
+            <div class="flex flex-col items-center">
+                <button id="fetchBtn" class="bg-green-400 hover:bg-green-500 text-white p-2 rounded-xl transition-colors">Generate Bacon Text</button>
+            </div>
+            <div id="content" class="space-y-6 text-gray-700 pl-2 leading-relaxed"></div>
+        </div>
+    </div>
+
+    <script>
+        const fetchBtn = document.getElementById("fetchBtn");
+        const content = document.getElementById("content");
+
+        async function fetchData(){
+          try {
+            content.innerHTML =`<p class="text-center text-blue-500 font-semibold animate-pulse">Loading Bacon Ipsum..</p>`;
+            const response = await fetch("https://baconipsum.com/api/?type=all");
+            if(!response.ok) {
+                throw new Error("may the network is not okay...");
+            }
+            const data = await response.json();
+            content.innerHTML = "";
+            data.forEach(paragraph=>{
+                const p = document.createElement("p");
+                p.textContent = paragraph;
+                content.appendChild(p);
+            });
+          } catch(error) {
+                content.innerHTML = `<p class="text-red-500 font-semibold text-center">Error: ${error.message}</p>`;
+            }
+          } 
+          fetchBtn.addEventListener("click",fetchData);
+    </script>
+</body>
+</html>
